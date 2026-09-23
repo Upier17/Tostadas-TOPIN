@@ -1,0 +1,73 @@
+:root {
+    /* Modo Claro */
+    --bg-primary: #FAF7F2;
+    /* Fondo global hueso */
+    --bg-surface: #FFFFFF;
+    /* Superficie sólida de tarjetas y carrito */
+    --bg-secondary: #F3ECE2;
+    /* Contenedores secundarios */
+    --border-color: #E4D9C9;
+    /* Bordes */
+
+    --text-primary: #3D2B1F;
+    /* Texto principal café oscuro */
+    --text-muted: #7A6352;
+    /* Texto secundario */
+
+    --brand-brown: #3D2B1F;
+    /* "TOSTADAS" */
+    --brand-orange: #D9531E;
+    /* "TOPIN" */
+
+    --accent: #D9531E;
+    --accent-hover: #B83F0F;
+    --danger: #C0392B;
+    --radius: 8px;
+}
+
+html.dark,
+.dark {
+    /* Modo Oscuro */
+    --bg-primary: #181412;
+    --bg-surface: #241D19;
+    --bg-secondary: #2E2520;
+    --border-color: #3E322A;
+
+    --text-primary: #F5ECE4;
+    /* Texto claro */
+    --text-muted: #B3A092;
+
+    --brand-brown: #E8D8C8;
+    --brand-orange: #F27A42;
+
+    --accent: #F27A42;
+    --accent-hover: #FF925C;
+    --danger: #E74C3C;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    min-height: 100vh;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+    color: var(--brand-orange);
+    text-decoration: none;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}

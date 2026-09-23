@@ -1,56 +1,97 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import Navbar from './components/Navbar.vue';
+import ProductCard from './components/ProductCard.vue';
+import CartDrawer from './components/CartDrawer.vue';
+import { useTheme } from './composables/useTheme.js';
 
-const apiStatus = ref('Cargando...');
-const backendUrl = 'http://localhost:3000/api/v1/health';
+const { initTheme } = useTheme();
+const productos = ref([]);
+const loading = ref(true);
+const error = ref(null);
 
-const checkBackendStatus = async () => {
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+const fetchProductos = async () => {
   try {
-    const response = await fetch(backendUrl);
-    const data = await response.json();
-    apiStatus.value = `${data.message} (${data.status})`;
-  } catch (error) {
-    apiStatus.value = 'Error al conectar con la API REST Backend';
-    console.error(error);
+    const res = await fetch(`${API_URL}/api/v1/productos`);
+    const data = await res.json();
+    if (data.status === 'OK') {
+      productos.value = data.data;
+    } else {
+      error.value = 'No se pudo cargar el menú en este momento.';
+    }
+  } catch (err) {
+    error.value = 'No se pudo conectar con el servidor del menú.';
+  } finally {
+    loading.value = false;
   }
 };
 
 onMounted(() => {
-  checkBackendStatus();
+  initTheme();
+  fetchProductos();
 });
 </script>
 
 <template>
-  <main class="container">
-    <h1>🥑 Tostadas TOPIN - Entorno de Desarrollo</h1>
-    <div class="card">
-      <h2>Estado de la API Backend (Node.js + Express):</h2>
-      <p :class="{ ok: apiStatus.includes('OK'), error: !apiStatus.includes('OK') }">
-        {{ apiStatus }}
-      </p>
-    </div>
-  </main>
+  <div class="app-layout">
+    <Navbar />
+
+    <main class="container">
+      <header class="menu-header">
+        <h1>Nuestro Menú</h1>
+      </header>
+
+      <div v-if="loading" class="state-msg">Cargando...</div>
+      <div v-else-if="error" class="state-msg error">{{ error }}</div>
+
+      <section v-else class="menu-grid">
+        <ProductCard 
+          v-for="producto in productos" 
+          :key="producto.id" 
+          :product="producto" 
+        />
+      </section>
+    </main>
+
+    <CartDrawer />
+  </div>
 </template>
 
 <style scoped>
 .container {
-  max-width: 800px;
-  margin: 2rem auto;
-  font-family: sans-serif;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 5rem;
+}
+
+.menu-header {
+  margin-bottom: 3rem;
+}
+
+.menu-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  column-gap: 2.5rem;
+  row-gap: 3.5rem;
+}
+
+.state-msg {
+  padding: 4rem 0;
   text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
-.card {
-  border: 1px solid #ccc;
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-top: 1rem;
-}
-.ok {
-  color: #2e7d32;
-  font-weight: bold;
-}
-.error {
-  color: #c62828;
-  font-weight: bold;
+
+.state-msg.error {
+  color: var(--danger);
 }
 </style>
