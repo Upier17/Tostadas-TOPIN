@@ -7,12 +7,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Endpoint de prueba de salud / estado
+const authRoutes = require('./routes/auth.routes');
+const pedidosRoutes = require('./routes/pedidos.routes');
+
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/pedidos', pedidosRoutes);
+
 app.get('/api/v1/health', (req, res) => {
     res.json({ status: 'OK', message: '!! API REST en ejecución !!' });
 });
 
-// Endpoint de prueba que realiza una consulta SQL a Supabase
 app.get('/api/v1/test-db', async (req, res) => {
     try {
         const result = await pool.query('SELECT NOW()');
@@ -27,10 +31,9 @@ app.get('/api/v1/test-db', async (req, res) => {
     }
 });
 
-// Endpoint de prueba https://gemini.google.com/app/e4cb445575f27623para listar los productos creados en el Sprint 1 (PB-04 / PB-07)
 app.get('/api/v1/productos', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM productos');
+        const result = await pool.query('SELECT * FROM productos ORDER BY id ASC');
         res.json({
             status: 'OK',
             data: result.rows

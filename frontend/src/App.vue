@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import Navbar from './components/Navbar.vue';
 import ProductCard from './components/ProductCard.vue';
 import CartDrawer from './components/CartDrawer.vue';
+import AuthModal from './components/AuthModal.vue';
 import { useTheme } from './composables/useTheme.js';
 
 const { initTheme } = useTheme();
@@ -56,6 +57,7 @@ onMounted(() => {
     </main>
 
     <CartDrawer />
+    <AuthModal />
   </div>
 </template>
 
