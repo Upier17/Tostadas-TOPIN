@@ -4,12 +4,17 @@ import { useTheme } from '../composables/useTheme.js';
 import { useCart } from '../composables/useCart.js';
 import { useAuth } from '../composables/useAuth.js';
 import OrdersModal from './OrdersModal.vue';
+import AdminPanel from './AdminPanel.vue';
+
+// Declara los eventos que este componente puede emitir hacia App.vue
+const emit = defineEmits(['reload-products']);
 
 const { isDark, toggleTheme } = useTheme();
 const { totalItems, isCartOpen } = useCart();
 const { currentUser, isAuthOpen, logout } = useAuth();
 
 const isOrdersOpen = ref(false);
+const isAdminOpen = ref(false);
 </script>
 
 <template>
@@ -32,9 +37,15 @@ const isOrdersOpen = ref(false);
           </button>
         </template>
 
+        <template v-if="currentUser && (currentUser.rol === 'administrador' || currentUser.rol === 'empleado')">
+          <span class="divider">/</span>
+          <button @click="isAdminOpen = true" class="nav-link admin-btn" type="button">
+            Admin
+          </button>
+        </template>
+
         <span class="divider">/</span>
 
-        <!-- Sesión de Usuario -->
         <template v-if="currentUser">
           <span class="user-name">
             {{ currentUser.nombre }} 
@@ -56,6 +67,13 @@ const isOrdersOpen = ref(false);
         </button>
       </nav>
     </div>
+
+    <!-- Pasa la señal hacia App.vue cuando un producto cambie -->
+    <AdminPanel 
+      :isOpen="isAdminOpen" 
+      @close="isAdminOpen = false" 
+      @product-updated="emit('reload-products')" 
+    />
 
     <OrdersModal v-if="currentUser" :isOpen="isOrdersOpen" @close="isOrdersOpen = false" />
   </header>
@@ -107,6 +125,7 @@ const isOrdersOpen = ref(false);
 }
 
 .nav-link:hover { color: var(--text-primary); }
+.admin-btn { color: var(--brand-orange); font-weight: 700; }
 .auth-btn { color: var(--brand-orange); font-weight: 600; }
 .logout-btn { color: var(--danger, #c0392b); font-size: 0.75rem; }
 

@@ -37,7 +37,8 @@ onMounted(() => {
 
 <template>
   <div class="app-layout">
-    <Navbar />
+    <!-- Escucha el evento 'reload-products' emitido desde la Navbar/AdminPanel -->
+    <Navbar @reload-products="fetchProductos" />
 
     <main class="container">
       <header class="menu-header">
