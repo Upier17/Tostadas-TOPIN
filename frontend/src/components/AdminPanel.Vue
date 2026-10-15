@@ -15,7 +15,6 @@ const usuarios = ref([]);
 const loading = ref(false);
 const error = ref('');
 
-// Formulario de Producto Nuevo / Edición
 const isEditing = ref(false);
 const currentProductId = ref(null);
 const formProduct = ref({
@@ -28,12 +27,10 @@ const formProduct = ref({
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-// Cargar información de productos y usuarios de forma independiente
 const loadAdminData = async () => {
   loading.value = true;
   error.value = '';
 
-  // 1. Obtener productos (no se interrumpe si la ruta de usuarios falla)
   try {
     const resProd = await fetch(`${API_URL}/api/v1/productos`);
     const dataProd = await resProd.json();
@@ -45,7 +42,6 @@ const loadAdminData = async () => {
     error.value = 'No se pudo conectar con la base de datos.';
   }
 
-  // 2. Obtener usuarios
   try {
     const resUser = await fetch(`${API_URL}/api/v1/admin/usuarios`);
     if (resUser.ok) {
@@ -61,14 +57,12 @@ const loadAdminData = async () => {
   }
 };
 
-// Carga inicial al montar si la ventana ya inició visible
 onMounted(() => {
   if (props.isOpen) {
     loadAdminData();
   }
 });
 
-// Carga automática inmediata cada vez que 'isOpen' pasa a ser 'true'
 watch(
   () => props.isOpen,
   (newVal) => {
@@ -79,7 +73,6 @@ watch(
   { immediate: true }
 );
 
-// PB-15: Actualización rápida de stock
 const updateStock = async (product, delta) => {
   const newStock = Math.max(0, product.existencias + delta);
   try {
@@ -98,7 +91,6 @@ const updateStock = async (product, delta) => {
   }
 };
 
-// PB-14: Guardar (Crear o Editar) Producto
 const saveProduct = async () => {
   const endpoint = isEditing.value 
     ? `${API_URL}/api/v1/admin/productos/${currentProductId.value}`
@@ -151,7 +143,6 @@ const deleteProduct = async (id) => {
   }
 };
 
-// PB-16: Cambiar rol de usuario
 const updateUserRole = async (user, newRole) => {
   try {
     const res = await fetch(`${API_URL}/api/v1/admin/usuarios/${user.id}/rol`, {
