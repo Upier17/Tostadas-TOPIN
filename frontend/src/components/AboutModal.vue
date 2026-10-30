@@ -24,7 +24,7 @@ const emit = defineEmits(['close']);
           <section class="intro-section">
             <h2 class="title">Nuestra Historia y Compromiso</h2>
             <p class="history-text">
-              Nacidos en el corazón del área metropolitana de Guadalajara, <strong>Tostadas TOPIN</strong> surgió de la pasión por mantener viva la tradición gastronómica regia. Nos especializamos en la elaboración de tostadas artesanales preparadas al momento, utilizando únicamente ingredientes frescos, guisos tradicionales y la auténtica receta de la casa.
+              Nacidos en el corazón del área metropolitana de Guadalajara, <strong>Tostadas TOPIN</strong> surgió de la pasión por mantener viva la tradición gastronómica tapatía. Nos especializamos en la elaboración de tostadas artesanales preparadas al momento, utilizando únicamente ingredientes frescos, guisos tradicionales y la auténtica receta de la casa.
             </p>
           </section>
 
