@@ -5,6 +5,7 @@ import { useCart } from '../composables/useCart.js';
 import { useAuth } from '../composables/useAuth.js';
 import OrdersModal from './OrdersModal.vue';
 import AdminPanel from './AdminPanel.vue';
+import AboutModal from './AboutModal.vue';
 
 const emit = defineEmits(['reload-products']);
 
@@ -15,6 +16,7 @@ const { currentUser, isAuthOpen, logout } = useAuth();
 const isMenuOpen = ref(false);
 const isOrdersOpen = ref(false);
 const isAdminOpen = ref(false);
+const isAboutOpen = ref(false);
 
 const handleLogout = () => {
   logout();
@@ -35,6 +37,7 @@ const openCartFromMenu = () => {
         <span class="logo-topin">TOPIN</span>
       </div>
 
+      <!-- Navegación Escritorio -->
       <nav class="desktop-actions">
         <button 
           @click="toggleTheme" 
@@ -48,6 +51,13 @@ const openCartFromMenu = () => {
           <svg v-else class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
+        </button>
+
+        <span class="divider">/</span>
+
+        <!-- Botón Nosotros -->
+        <button @click="isAboutOpen = true" class="nav-link" type="button">
+          Nosotros
         </button>
 
         <template v-if="currentUser">
@@ -90,6 +100,7 @@ const openCartFromMenu = () => {
         </button>
       </nav>
 
+      <!-- Móvil -->
       <div class="mobile-header-right">
         <span v-if="currentUser" class="user-name mobile-user">
           {{ currentUser.nombre }}
@@ -113,6 +124,7 @@ const openCartFromMenu = () => {
       </div>
     </div>
 
+    <!-- Menú Desplegable Móvil -->
     <Transition name="menu-drawer">
       <div v-if="isMenuOpen" class="mobile-menu-overlay" @click.self="isMenuOpen = false">
         <div class="mobile-menu-content">
@@ -123,6 +135,15 @@ const openCartFromMenu = () => {
               </svg>
               <span>Carrito</span>
               <span v-if="totalItems > 0" class="cart-count">({{ totalItems }})</span>
+            </button>
+
+            <!-- Opción Nosotros Móvil -->
+            <button 
+              @click="isAboutOpen = true; isMenuOpen = false;" 
+              class="mobile-menu-item" 
+              type="button"
+            >
+              Nosotros
             </button>
 
             <button 
@@ -170,6 +191,8 @@ const openCartFromMenu = () => {
       </div>
     </Transition>
 
+    <!-- Modales -->
+    <AboutModal :isOpen="isAboutOpen" @close="isAboutOpen = false" />
     <AdminPanel 
       :isOpen="isAdminOpen" 
       @close="isAdminOpen = false" 
