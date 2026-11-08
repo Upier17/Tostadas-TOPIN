@@ -5,6 +5,7 @@ import ProductCard from './components/ProductCard.vue';
 import CartDrawer from './components/CartDrawer.vue';
 import AuthModal from './components/AuthModal.vue';
 import { useTheme } from './composables/useTheme.js';
+import Footer from './components/Footer.vue';
 
 const { initTheme } = useTheme();
 const productos = ref([]);
@@ -59,6 +60,7 @@ onMounted(() => {
 
     <CartDrawer />
     <AuthModal />
+    <Footer />
   </div>
 </template>
 
