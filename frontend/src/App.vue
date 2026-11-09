@@ -4,13 +4,17 @@ import Navbar from './components/Navbar.vue';
 import ProductCard from './components/ProductCard.vue';
 import CartDrawer from './components/CartDrawer.vue';
 import AuthModal from './components/AuthModal.vue';
-import { useTheme } from './composables/useTheme.js';
+import AboutModal from './components/AboutModal.vue';
 import Footer from './components/Footer.vue';
+import { useTheme } from './composables/useTheme.js';
 
 const { initTheme } = useTheme();
 const productos = ref([]);
 const loading = ref(true);
 const error = ref(null);
+
+// Estado para controlar el despliegue del modal institucional
+const isAboutOpen = ref(false);
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -38,8 +42,11 @@ onMounted(() => {
 
 <template>
   <div class="app-layout">
-    <!-- Escucha el evento 'reload-products' emitido desde la Navbar/AdminPanel -->
-    <Navbar @reload-products="fetchProductos" />
+    <!-- Escucha el evento de recarga de productos y de apertura de 'Nosotros' -->
+    <Navbar 
+      @reload-products="fetchProductos" 
+      @open-about="isAboutOpen = true" 
+    />
 
     <main class="container">
       <header class="menu-header">
@@ -60,7 +67,12 @@ onMounted(() => {
 
     <CartDrawer />
     <AuthModal />
-    <Footer />
+    
+    <!-- Modal global de Nosotros -->
+    <AboutModal :isOpen="isAboutOpen" @close="isAboutOpen = false" />
+
+    <!-- Pie de página conectado al evento 'open-about' -->
+    <Footer @open-about="isAboutOpen = true" />
   </div>
 </template>
 

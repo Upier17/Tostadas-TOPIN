@@ -1,6 +1,6 @@
-
 <script setup>
 const year = new Date().getFullYear();
+const emit = defineEmits(['open-about']);
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const year = new Date().getFullYear();
       <div class="footer-links">
         <h3>Explora</h3>
         <a href="#">Inicio</a>
-        <a href="#nosotros">Nosotros</a>
+        <a href="#" @click.prevent="emit('open-about')">Nosotros</a>
       </div>
 
       <div class="footer-contact">
@@ -93,6 +93,7 @@ const year = new Date().getFullYear();
   text-decoration: none;
   font-size: 0.9rem;
   transition: color 0.2s ease;
+  cursor: pointer;
 }
 
 .footer a:hover {
