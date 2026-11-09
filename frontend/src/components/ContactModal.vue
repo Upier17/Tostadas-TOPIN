@@ -23,12 +23,10 @@ const handleSubmit = () => {
 
   isSubmitting.value = true;
 
-  // Simulación de envío a servidor (1.2 segundos)
   setTimeout(() => {
     isSubmitting.value = false;
     showSuccess.value = true;
 
-    // Reset del formulario después de 2.5 segundos
     setTimeout(() => {
       showSuccess.value = false;
       nombre.value = '';
@@ -45,7 +43,6 @@ const handleSubmit = () => {
   <Transition name="fade">
     <div v-if="isOpen" class="modal-overlay" @click.self="emit('close')">
       <div class="modal-card">
-        <!-- Encabezado con botón de cierre -->
         <header class="modal-header">
           <div class="brand-tag">TOSTADAS TOPIN</div>
           <button @click="emit('close')" class="close-btn" type="button" aria-label="Cerrar modal">&times;</button>
@@ -57,14 +54,12 @@ const handleSubmit = () => {
             ¿Tienes alguna duda, evento especial o sugerencia sobre nuestro menú? Déjanos un mensaje y te responderemos a la brevedad.
           </p>
 
-          <!-- Estado de éxito de envío -->
           <div v-if="showSuccess" class="success-box">
             <span class="success-icon">✓</span>
             <h3>¡Mensaje enviado con éxito!</h3>
             <p>Gracias por escribirnos. Nuestro equipo se pondrá en contacto contigo pronto.</p>
           </div>
 
-          <!-- Formulario de contacto -->
           <form v-else @submit.prevent="handleSubmit" class="contact-form">
             <div class="form-row">
               <div class="field-group">

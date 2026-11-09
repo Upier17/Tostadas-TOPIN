@@ -14,7 +14,6 @@ const productos = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-// Estados reactivos para controlar modales globales
 const isAboutOpen = ref(false);
 const isContactOpen = ref(false);
 
