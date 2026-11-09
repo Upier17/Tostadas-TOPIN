@@ -1,6 +1,7 @@
 <script setup>
 const year = new Date().getFullYear();
-const emit = defineEmits(['open-about']);
+// Declara las dos emisiones hacia App.vue
+const emit = defineEmits(['open-about', 'open-contact']);
 </script>
 
 <template>
@@ -25,7 +26,8 @@ const emit = defineEmits(['open-about']);
       <div class="footer-contact">
         <h3>Contáctanos</h3>
         <p>¿Tienes alguna pregunta sobre nuestros productos?</p>
-        <a href="mailto:contacto@tostadastopin.com">
+        <!-- Reemplazado mailto: por evento emitido -->
+        <a href="#" @click.prevent="emit('open-contact')">
           Envíanos un correo
         </a>
       </div>

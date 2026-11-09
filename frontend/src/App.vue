@@ -5,6 +5,7 @@ import ProductCard from './components/ProductCard.vue';
 import CartDrawer from './components/CartDrawer.vue';
 import AuthModal from './components/AuthModal.vue';
 import AboutModal from './components/AboutModal.vue';
+import ContactModal from './components/ContactModal.vue';
 import Footer from './components/Footer.vue';
 import { useTheme } from './composables/useTheme.js';
 
@@ -13,8 +14,9 @@ const productos = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-// Estado para controlar el despliegue del modal institucional
+// Estados reactivos para controlar modales globales
 const isAboutOpen = ref(false);
+const isContactOpen = ref(false);
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -42,7 +44,6 @@ onMounted(() => {
 
 <template>
   <div class="app-layout">
-    <!-- Escucha el evento de recarga de productos y de apertura de 'Nosotros' -->
     <Navbar 
       @reload-products="fetchProductos" 
       @open-about="isAboutOpen = true" 
@@ -68,11 +69,15 @@ onMounted(() => {
     <CartDrawer />
     <AuthModal />
     
-    <!-- Modal global de Nosotros -->
+    <!-- Modales Globales Institucionales -->
     <AboutModal :isOpen="isAboutOpen" @close="isAboutOpen = false" />
+    <ContactModal :isOpen="isContactOpen" @close="isContactOpen = false" />
 
-    <!-- Pie de página conectado al evento 'open-about' -->
-    <Footer @open-about="isAboutOpen = true" />
+    <!-- Pie de página conectado a ambos eventos -->
+    <Footer 
+      @open-about="isAboutOpen = true" 
+      @open-contact="isContactOpen = true" 
+    />
   </div>
 </template>
 
